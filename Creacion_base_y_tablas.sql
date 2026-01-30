@@ -2,10 +2,6 @@ CREATE DATABASE clinica_db_Proyecto;
 GO
 use clinica_db_Proyecto; 
 go
- 
-
-
-
 
 /* Personas */
 CREATE TABLE dbo.Personas (

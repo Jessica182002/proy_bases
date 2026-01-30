@@ -99,7 +99,7 @@ FROM dbo.Citas AS c
 JOIN dbo.Pacientes AS p ON p.id_paciente = c.id_paciente
 JOIN dbo.Personas  AS pe ON pe.id_persona = p.id_paciente
 GROUP BY pe.nombre, pe.apellido
-HAVING COUNT(*) >= 2
+--HAVING COUNT(*) >= 2
 ORDER BY citas DESC, paciente;
 
 
@@ -149,23 +149,27 @@ JOIN dbo.EstadoCita     AS e  ON e.id_estado        = c.id_estado
 LEFT JOIN dbo.Consultorios AS co ON co.id_consultorio = c.id_consultorio;
 GO
 
--- Uso de la vista
+
 SELECT TOP 10 * FROM dbo.vw_CitasDetalle ORDER BY fecha_cita DESC;
 
 -- 12 insert 
--- Busca el estado 'programada' (si no conoces el ID)
 DECLARE @id_estado_programada INT =
   (SELECT id_estado FROM dbo.EstadoCita WHERE nombre = 'programada');
 
 INSERT INTO dbo.Citas (id_paciente, id_medico, id_consultorio, id_estado, fecha_cita, duracion, motivo)
 VALUES (1, 4, 1, @id_estado_programada, '2026-02-20 09:30:00', 30, 'Control de rutina');
+select * from Citas ;
+go
 -- 13 update 
 DECLARE @id_estado_atendida INT =
   (SELECT id_estado FROM dbo.EstadoCita WHERE nombre = 'atendida');
 
 UPDATE dbo.Citas
 SET id_estado = @id_estado_atendida
-WHERE id_cita = 1;  -- ajusta el ID de la cita que quieras marcar
+WHERE id_cita = 1; 
+
+select * from dbo.Citas;
+go 
 
 -- 14 delete 
 
@@ -175,3 +179,7 @@ DECLARE @id_estado_cancelada INT =
 DELETE FROM dbo.Citas
 WHERE id_estado = @id_estado_cancelada
   AND fecha_cita < SYSDATETIME();
+
+
+SELECT * FROM Citas;
+go 
